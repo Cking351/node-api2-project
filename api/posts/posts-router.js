@@ -18,6 +18,26 @@ router.get("/", async (req, res) => {
 	}
 });
 
+// GET ALL COMMENTS BY POST ID
+router.get("/:id/comments", async (req, res) => {
+	const id = req.params.id;
+	const result = await Posts.findCommentById(id);
+
+	try {
+		if (!result) {
+			res
+				.status(404)
+				.json({ message: "The post with the specified ID does not exist" });
+		} else {
+			res.status(200).json(result);
+		}
+	} catch {
+		res
+			.status(500)
+			.json({ message: "The comments information could not be retrieved" });
+	}
+});
+
 // GET POST BY ID
 router.get("/:id", async (req, res) => {
 	const id = req.params.id;
